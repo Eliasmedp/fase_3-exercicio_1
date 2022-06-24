@@ -1,11 +1,9 @@
 from datetime import date
 import uuid
-from SRC.Domain.Enums.opcaoGeneroEnum import Genero
-from SRC.Domain.Config.config_atributos import IDADE_MINIMA, TAMANHO_MAX_NOME
-from SRC.Domain.Validators.data_validator import DataValidator
-from SRC.Domain.Validators.string_validator import ValidaString
+from src.domain.enums.opcaoGeneroEnum import Genero
+from src.domain.config.config_atributos import IDADE_MINIMA, TAMANHO_MAX_NOME
+from src.domain.validators.string_validator import ValidaString
 from transfero_validators.validators import CPFValidator, EmailValidator, CelularValidator, SenhaValidator
-from calendar import isleap
 
 class Usuario:
     def __init__(self, nome : str, email : str, senha : str, celular1 : str, data_nasc : date, cpf : str, genero : Genero, celular2 : str = None, id : uuid = None) -> None:
@@ -37,10 +35,16 @@ class Usuario:
 
         if idade_usuario < IDADE_MINIMA:
             raise Exception (f"Idade mínima aceita: {IDADE_MINIMA} anos.")
+
+    def valida_genero(self):
+        if not isinstance(self.genero, Genero):
+            raise Exception('Genero precisa ser do tipo Genero.')
     
+
     def valida(self):
         self.valida_nome()
         self.valida_idade()
+        self.valida_genero()
         CPFValidator.valida(self.cpf)
         EmailValidator.valida(self.email)
         CelularValidator.valida(self.celular1)
@@ -49,5 +53,5 @@ class Usuario:
         if (self.celular2 != 0):
             CelularValidator.valida(self.celular2)
         
-        if not self.genero in Genero:
-            raise Exception ('Gênero inválido.')
+
+# usuario = Usuario('Elias', 'elias@gmail.com', '12346', '982973131', date(1999,9,31), 12345, Genero(1))

@@ -1,8 +1,8 @@
 from datetime import date
 import pytest
 
-from SRC.Domain.Config.config_atributos import IDADE_MINIMA
-from SRC.Domain.Entities.usuario import Usuario
+from src.domain.config.config_atributos import IDADE_MINIMA
+from src.domain.entities.usuario import Usuario
 
 
 class TestValidaIdade:
@@ -11,7 +11,10 @@ class TestValidaIdade:
     @pytest.mark.parametrize(
         ('parametro_teste', 'exception_type', 'msg'),
         (
-        pytest.param('30/09/1999', Exception, 'Data precisa ser do tipo date.', id='data_nao_do_tipo_date'),
+        pytest.param('30/09/1999', Exception, 'Data precisa ser do tipo date.', id='data_do_tipo_string'),
+        pytest.param('', Exception, 'Data precisa ser do tipo date.', id='data_string_vazia'),
+        pytest.param(' ', Exception, 'Data precisa ser do tipo date.', id='data_string_com_espaco'),
+        pytest.param((1999-9-30), Exception, 'Data precisa ser do tipo date.', id='data_do_tipo_int'),
         pytest.param(date(2021, 9, 30), Exception, f'Idade mínima aceita: {idade_minima} anos.', id='idade_menor_que_idade_minima'),
         
         ),
