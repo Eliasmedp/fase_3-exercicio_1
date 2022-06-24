@@ -40,18 +40,28 @@ class Usuario:
         if not isinstance(self.genero, Genero):
             raise Exception('Genero precisa ser do tipo Genero.')
     
+    def valida_cpf(self):
+        CPFValidator.valida(self.cpf)
+    
+    def valida_email(self):
+        EmailValidator.valida(self.email)
 
+    def valida_celular(self):
+        CelularValidator.valida(self.celular1)
+    
+    def valida_senha(self):
+        SenhaValidator.valida(self.senha)
+
+    
     def valida(self):
         self.valida_nome()
         self.valida_idade()
         self.valida_genero()
-        CPFValidator.valida(self.cpf)
-        EmailValidator.valida(self.email)
-        CelularValidator.valida(self.celular1)
-        SenhaValidator.valida(self.senha)
+        self.valida_cpf()
+        self.valida_email()
+        self.valida_celular()
+        self.valida_senha()
 
         if (self.celular2 != 0):
-            CelularValidator.valida(self.celular2)
+            self.valida_celular()
         
-
-# usuario = Usuario('Elias', 'elias@gmail.com', '12346', '982973131', date(1999,9,31), 12345, Genero(1))
